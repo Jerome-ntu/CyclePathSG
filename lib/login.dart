@@ -53,7 +53,16 @@ class LoginScreen extends StatelessWidget {
 
                   SizedBox(
                       width: double.infinity,
-                      child: ElevatedButton(onPressed: () {}, child: Text("Sign In"))
+                      child: ElevatedButton(onPressed: () {}, child: Text("Sign In"),
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.green, // button background color
+                              foregroundColor: Colors.white, // text & icon color
+                              padding: EdgeInsets.symmetric(
+                                vertical: 12.0,
+                                horizontal: 24.0,
+                              )
+                          )
+                      )
                   ),
 
                   SizedBox(

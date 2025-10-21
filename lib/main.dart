@@ -1,6 +1,7 @@
 import 'package:cyclepathsg/login.dart';
 import 'package:cyclepathsg/register.dart';
 import 'package:cyclepathsg/navigation.dart';
+import 'package:cyclepathsg/screen/app_main_screen.dart';
 
 import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -37,7 +38,7 @@ class _MyAppState extends State<MyApp> {
       title: 'CyclePathSG',
       debugShowCheckedModeBanner: false,
       // home: RegisterPage(),
-      home: NavigationPage(),
+      home: AppMainScreen(),
     );
   }
 }

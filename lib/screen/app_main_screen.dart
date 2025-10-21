@@ -1,3 +1,5 @@
+import 'package:cyclepathsg/screen/cyclist_home_screen.dart';
+
 import 'package:cyclepathsg/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -10,7 +12,13 @@ class AppMainScreen extends StatefulWidget {
 }
 
 class _AppMainScreenState extends State<AppMainScreen> {
-  // initially display the indes of the pages list
+  final List<Widget> pages = [
+    CyclistHomeScreen(),
+    Center(child: Text("Profile")),
+    Center(child: Text("Rewards")),
+    Center(child: Text("DELETE_ME")),
+  ];
+  // initially display the index of the pages list
   int _currentIndex = 0;
   final List<IconData> _icons = [
     FontAwesomeIcons.house,
@@ -18,12 +26,13 @@ class _AppMainScreenState extends State<AppMainScreen> {
     FontAwesomeIcons.truckFast,
   ];
   final List<String> _labels = [
-    "House", "Profile", "Rewards"
+    "Home", "Profile", "Rewards"
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      body: pages[_currentIndex],
         bottomNavigationBar: Container(
             padding: EdgeInsets.only(top: 10, bottom: 20),
             decoration: BoxDecoration(

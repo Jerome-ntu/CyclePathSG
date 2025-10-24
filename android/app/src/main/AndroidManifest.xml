@@ -3,6 +3,10 @@
         <!-- Asks for location permissions -->
         <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
         <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+        <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+        <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION" />
+
+
         <application
             android:label="cyclepathsg"
             android:name="${applicationName}"
@@ -38,7 +42,7 @@
 
             <meta-data
                 android:name="com.google.android.geo.API_KEY"
-                android:value="${MAPS_API_KEY}" />
+                android:value="AIzaSyArfU5Nu8f3VS1V6h1evUJIxpfDzbPYKU4" />
         </application>
         <!-- Required to query activities that can process text, see:
              https://developer.android.com/training/package-visibility and

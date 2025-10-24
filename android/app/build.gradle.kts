@@ -10,7 +10,7 @@ plugins {
 
 android {
     namespace = "com.example.cyclepathsg"
-    compileSdk = flutter.compileSdkVersion
+    compileSdk = flutter.compileSdkVersion // We need atleast 35 here
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
@@ -27,8 +27,7 @@ android {
         applicationId = "com.example.cyclepathsg"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
-        minSdk = flutter.minSdkVersion // set to 21
-        minSdk = flutter.minSdkVersion
+        minSdk = 24 // set to 24, some packages need 24
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName

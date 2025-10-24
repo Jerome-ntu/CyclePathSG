@@ -1,14 +1,19 @@
+import 'package:cyclepathsg/login.dart';
+import 'package:cyclepathsg/provider/current_location_provider.dart';
 import 'package:cyclepathsg/register.dart';
+import 'package:cyclepathsg/navigation.dart';
+import 'package:cyclepathsg/screen/app_main_screen.dart';
+
 import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:cyclepathsg/login.dart';
+import 'package:provider/provider.dart';
 
 Future<void> main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  // await Firebase.initializeApp();
 
   runApp(DevicePreview(builder: (context)=>MyApp()));
 }
@@ -31,10 +36,16 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'CyclePathSG',
-      debugShowCheckedModeBanner: false,
-      home: RegisterPage(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => CurrentLocationProvider()),
+      ],
+      child: MaterialApp(
+        title: 'CyclePathSG',
+        debugShowCheckedModeBanner: false,
+        // home: RegisterPage(),
+        home: AppMainScreen(),
+      ),
     );
   }
 }

@@ -44,7 +44,7 @@ class _MyAppState extends State<MyApp> {
         title: 'CyclePathSG',
         debugShowCheckedModeBanner: false,
         // home: RegisterPage(),
-        home: AppMainScreen(),
+        home: AppMainScreen(), // AppMainScreen() is the cyclist main page
       ),
     );
   }

@@ -1,4 +1,4 @@
-import 'package:cyclepathsg/screen/NavigationUI.dart';
+import 'package:cyclepathsg/screen/HomeUI.dart';
 
 import 'package:cyclepathsg/utils/colors.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +13,7 @@ class AppMainScreen extends StatefulWidget {
 
 class _AppMainScreenState extends State<AppMainScreen> {
   final List<Widget> pages = [
-    NavigationUI(),
+    HomeUI.HomeUI(),
     Center(child: Text("Profile")),
     Center(child: Text("Rewards")),
     Center(child: Text("DELETE_ME")),

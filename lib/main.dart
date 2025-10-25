@@ -1,4 +1,4 @@
-import 'package:cyclepathsg/login.dart';
+import 'package:cyclepathsg/screen/LoginUI.dart';
 import 'package:cyclepathsg/provider/current_location_provider.dart';
 import 'package:cyclepathsg/register.dart';
 import 'package:cyclepathsg/navigation.dart';
@@ -44,7 +44,7 @@ class _MyAppState extends State<MyApp> {
         title: 'CyclePathSG',
         debugShowCheckedModeBanner: false,
         // home: RegisterPage(),
-        home: AppMainScreen(),
+        home: AppMainScreen(), // AppMainScreen() is the cyclist main page
       ),
     );
   }

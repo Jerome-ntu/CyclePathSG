@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:cyclepathsg/common/styles/spacing_styles.dart';
 import 'package:cyclepathsg/utils/image_strings.dart';
 import 'package:iconsax_flutter/iconsax_flutter.dart';
-import 'package:cyclepathsg/models/login_credentials.dart';
+import 'package:cyclepathsg/models/LoginCredentials.dart';
 
 import '/utils/sizes.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+class LoginUI extends StatelessWidget {
+  const LoginUI({super.key});
 
 
   @override

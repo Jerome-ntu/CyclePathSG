@@ -13,7 +13,7 @@ class AppMainScreen extends StatefulWidget {
 
 class _AppMainScreenState extends State<AppMainScreen> {
   final List<Widget> pages = [
-    HomeUI.HomeUI(),
+    HomeUI(),
     Center(child: Text("Profile")),
     Center(child: Text("Rewards")),
     Center(child: Text("DELETE_ME")),

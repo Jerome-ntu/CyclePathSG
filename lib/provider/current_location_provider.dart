@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:geocoding/geocoding.dart'; // convert coords to name
 
 class CurrentLocationProvider extends ChangeNotifier{
   // default location: NTU
@@ -66,4 +67,25 @@ void refreshLocation(){
     _getCurrentLocation();
 }
 }
+
+Future<String> getAddressFromCoordinates(double lat, double lng) async {
+  try {
+    List<Placemark> placemarks = await placemarkFromCoordinates(lat, lng);
+
+    if (placemarks.isNotEmpty) {
+      final place = placemarks.first;
+      return "${place.street ?? ''}, "
+          "${place.subLocality ?? ''}, "
+          "${place.locality ?? ''}, "
+          "${place.postalCode ?? ''}, "
+          "${place.country ?? ''}".replaceAll(RegExp(r', ,'), ',').replaceAll(RegExp(r', $'), '');
+    } else {
+      return "Unknown location";
+    }
+  } catch (e) {
+    print("Error: $e");
+    return "Error getting location";
+  }
+}
+
 

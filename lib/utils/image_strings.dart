@@ -8,4 +8,6 @@ class TImages {
   static const String google = "assets/logos/google-icon.png";
   static const String facebook = "assets/logos/facebook-icon.png";
 
+  static const String tenderCoconut = "https://freshindiaorganics.com/cdn/shop/files/WhatsAppImage2025-02-27at1.40.30PM.jpg?v=1740648750";
+
 }

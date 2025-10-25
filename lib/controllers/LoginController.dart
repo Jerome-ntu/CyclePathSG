@@ -1,4 +1,4 @@
-import 'login_credentials.dart';
+import '../models/LoginCredentials.dart';
 
 class LoginController {
   late LoginCredentials _credentials;

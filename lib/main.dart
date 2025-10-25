@@ -1,4 +1,4 @@
-import 'package:cyclepathsg/login.dart';
+import 'package:cyclepathsg/screen/LoginUI.dart';
 import 'package:cyclepathsg/provider/current_location_provider.dart';
 import 'package:cyclepathsg/register.dart';
 import 'package:cyclepathsg/navigation.dart';

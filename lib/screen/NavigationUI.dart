@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 
-class CyclistHomeScreen extends StatefulWidget {
-  const CyclistHomeScreen({super.key});
+class NavigationUI extends StatefulWidget {
+  const NavigationUI({super.key});
 
   @override
-  State<CyclistHomeScreen> createState() => _CyclistHomeScreenState();
+  State<NavigationUI> createState() => _NavigationUIState();
 }
 
-class _CyclistHomeScreenState extends State<CyclistHomeScreen> {
+class _NavigationUIState extends State<NavigationUI> {
   GoogleMapController ? mapController;
   bool isOnline = true;
 

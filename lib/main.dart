@@ -1,5 +1,7 @@
 import 'package:cyclepathsg/screen/LoginUI.dart';
 import 'package:cyclepathsg/provider/current_location_provider.dart';
+import 'package:cyclepathsg/provider/route_provider.dart';
+
 import 'package:cyclepathsg/register.dart';
 import 'package:cyclepathsg/navigation.dart';
 import 'package:cyclepathsg/screen/app_main_screen.dart';
@@ -39,6 +41,7 @@ class _MyAppState extends State<MyApp> {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => CurrentLocationProvider()),
+        ChangeNotifierProvider(create: (_) => RouteProvider()),
       ],
       child: MaterialApp(
         title: 'CyclePathSG',

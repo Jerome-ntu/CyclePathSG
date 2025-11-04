@@ -54,7 +54,7 @@ class _EditProfilePageState extends State<EditProfilePage>{
           // Store textfield data
           updatedEmail = updatedEmail.isEmpty ? user.userEmail : updatedEmail;
           updatedGender = updatedGender.isEmpty ? user.gender : updatedGender;
-          updatedImagePath = updatedImagePath.isEmpty ? user.imagePath : updatedImagePath;
+          updatedImagePath = updatedImagePath.isEmpty ? user.profileImage : updatedImagePath;
 
           return Scaffold(
               appBar: AppBar(
@@ -153,7 +153,7 @@ class _EditProfilePageState extends State<EditProfilePage>{
 
                 TextFieldWidget(
                   label: "Image Path",
-                  text: user.imagePath,
+                  text: user.profileImage,
                   onChanged: (value) => updatedImagePath = value,
                 ),
 

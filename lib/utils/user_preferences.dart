@@ -28,7 +28,7 @@ class UserPreferences{
         myUser = Account(
           userEmail: accData['userEmail'] ?? '',
           gender: accData['gender'] ?? '',
-          imagePath: accData['profileImage'] ??
+          profileImage: accData['profileImage'] ??
               'https://cdn-icons-png.flaticon.com/512/3135/3135715.png', // in case unable to retrieve
         );
       }else {

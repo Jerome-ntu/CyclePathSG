@@ -123,7 +123,7 @@ class RegisterPage extends StatelessWidget{
                               await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);
 
                               // Create db entry in firebase
-                              registerAccount(Account(userEmail: email, gender: 'NIL', imagePath: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'), context);
+                              registerAccount(Account(userEmail: email, gender: 'NIL', profileImage: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'), context);
 
                               // Move to home screen
                               Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginScreen()));

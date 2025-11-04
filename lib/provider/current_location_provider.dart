@@ -1,7 +1,10 @@
-import 'package:flutter/cupertino.dart';
+import 'package:cyclepathsg/utils/font_awesome_helper.dart';
+
+import 'package:flutter/material.dart' hide Route;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart'; // convert coords to name
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class CurrentLocationProvider extends ChangeNotifier {
   // default location: NTU
@@ -13,6 +16,9 @@ class CurrentLocationProvider extends ChangeNotifier {
   LatLng get currentLocation => _currentLocation;
   bool get isLoading => _isLoading;
   String get errorMessage => _errorMessage;
+
+  BitmapDescriptor? originIcon;
+  BitmapDescriptor? currentLocationIcon;
 
   CurrentLocationProvider() {
     _getCurrentLocation();
@@ -66,6 +72,14 @@ class CurrentLocationProvider extends ChangeNotifier {
     _errorMessage = '';
     notifyListeners();
     _getCurrentLocation();
+  }
+
+  void loadOriginIcon() async {
+    originIcon = await getFontAwesomeBitmap(FontAwesomeIcons.circle, size: 45, color: Colors.blueAccent);
+  }
+
+  void loadCurrentLocationIcon() async {
+    currentLocationIcon = await getFontAwesomeBitmap(FontAwesomeIcons.solidCircle, size: 45, color: Colors.blueAccent);
   }
 }
 

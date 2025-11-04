@@ -4,17 +4,13 @@ import 'package:cyclepathsg/utils/colors.dart';
 
 import 'package:cyclepathsg/models/Route.dart';
 
-import 'package:cyclepathsg/provider/route_provider.dart';
-
-import 'package:cyclepathsg/screen/RouteDetailsUI.dart';
+import 'package:cyclepathsg/screen/NavigationUI.dart';
 
 import 'package:cyclepathsg/widgets/dash_vertical_line.dart';
 import 'package:cyclepathsg/widgets/custom_button.dart';
 
 import 'package:cyclepathsg/route.dart';
-
 import 'package:flutter/material.dart' hide Route;
-import 'package:provider/provider.dart';
 
 class RouteDetailsCard extends StatelessWidget {
   final Route route;
@@ -162,7 +158,7 @@ class RouteDetailsCard extends StatelessWidget {
                       color: Colors.green,
                       onPressed: () {
                         // Provider.of<RouteProvider>(context, listen: false).setRoute(route);
-                        // NavigationHelper.push(context, RouteDetailsUI());
+                        NavigationHelper.push(context, NavigationUI());
                       },
                     ),
                   ),

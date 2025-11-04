@@ -1,9 +1,7 @@
-import 'package:cyclepathsg/models/Route.dart';
 import 'package:cyclepathsg/provider/route_provider.dart';
-import 'package:cyclepathsg/provider/current_location_provider.dart';
-import 'package:cyclepathsg/utils/snackbar_helper.dart';
 import 'package:cyclepathsg/utils/colors.dart';
 import 'package:cyclepathsg/utils/font_awesome_helper.dart';
+import 'package:cyclepathsg/widgets/route_details_card.dart';
 
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -49,17 +47,19 @@ class _RouteDetailsUIState extends State<RouteDetailsUI> {
             children: [
               // google map
               _buildGoogleMap(provider),
-              // order status widget layer - shows delivery progress and action buttons
-              // Consumer<RouteProvider>(
-              //   builder: (context, provider, chile) {
-                  // if (provider.currentOrder == null) return SizedBox();
-                  //
-                  // // show orderOnThe Way for all delivery status except rejected
-                  // if (provider.status == DeliveryStatus.rejected) {
-                  //   return SizedBox();
-                  // }
-              //   },
-              // ),
+              // show current location on top
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Padding(
+                  padding: EdgeInsets.only(
+                    top: 40,
+                    left: 15,
+                    right: 15,
+                    bottom: 15,
+                  ),
+                  child: RouteDetailsCard(route: provider.route!),
+                ),
+              ),
             ],
           );
         },
@@ -95,9 +95,7 @@ class _RouteDetailsUIState extends State<RouteDetailsUI> {
       Marker(
         markerId: MarkerId("pickup"),
         position: provider.getRoute!.getCoordinatesList[0],
-        icon: BitmapDescriptor.defaultMarkerWithHue(
-        BitmapDescriptor.hueAzure,
-      ),
+        icon: BitmapDescriptor.defaultMarker,
       infoWindow: InfoWindow(title: "Pickup location"),
     ),
     );
@@ -155,6 +153,7 @@ class _RouteDetailsUIState extends State<RouteDetailsUI> {
 
   // smoothly moves map camera to specified location with animation according to the marker
   void _moveToLocation(LatLng location) {
+    location = LatLng(location.latitude - 0.005, location.longitude);
     _mapController?.animateCamera(CameraUpdate.newLatLngZoom(location, 14));
   }
 }

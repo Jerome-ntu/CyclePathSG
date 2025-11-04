@@ -1,23 +1,7 @@
 import 'package:cyclepathsg/utils/colors.dart';
-import 'package:cyclepathsg/utils/image_strings.dart';
-
-import 'package:cyclepathsg/provider/route_provider.dart';
-
-import 'package:cyclepathsg/models/Route.dart';
-
-import 'package:cyclepathsg/screen/app_main_screen.dart';
-import 'package:cyclepathsg/screen/HomeUI.dart';
-import 'package:cyclepathsg/screen/RouteDetailsUI.dart';
-
-import 'package:cyclepathsg/widgets/custom_button.dart';
-import 'package:cyclepathsg/widgets/dash_vertical_line.dart';
-
-import 'package:cyclepathsg/route.dart';
 import 'package:cyclepathsg/provider/current_location_provider.dart';
 
 import 'package:flutter/material.dart' hide Route;
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:provider/provider.dart';
 
 class LocationCard extends StatelessWidget {
   final CurrentLocationProvider provider;
@@ -81,7 +65,6 @@ class LocationCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // items info
-                // pickup and delivery
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
 

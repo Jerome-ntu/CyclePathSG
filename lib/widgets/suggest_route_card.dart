@@ -94,33 +94,6 @@ class SuggestRouteCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                SizedBox(height: 20),
-
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-
-                  children: [
-                    Column(
-                      children: [
-                        Icon(
-                          Icons.radio_button_checked,
-                          color: Colors.black54,
-                          size: 20,
-                        ),
-                        SizedBox(
-                          height: 35,
-                          child: DashVerticalLine(dashHeight: 6, dashGap: 5,),
-                        ),
-                      ],
-                    ),
-                    SizedBox(width: 4),
-                    pickupAndDeliveryInfo(
-                      "Pickup - ",
-                      "Kathmandu Durbar Square - 1.2 km for from you",
-                      " Green Valley Coconut Store",
-                    ),
-                  ],
-                ),
 
                 SizedBox(height: 15),
                 // action buttons ,

@@ -11,9 +11,7 @@ class CurrentLocationProvider extends ChangeNotifier {
 
   // pubic getters to access private variables
   LatLng get currentLocation => _currentLocation;
-
   bool get isLoading => _isLoading;
-
   String get errorMessage => _errorMessage;
 
   CurrentLocationProvider() {

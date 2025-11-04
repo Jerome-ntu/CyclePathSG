@@ -1,12 +1,24 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:cyclepathsg/common/styles/spacing_styles.dart';
 import 'package:cyclepathsg/utils/image_strings.dart';
 import 'package:iconsax_flutter/iconsax_flutter.dart';
 import 'package:cyclepathsg/models/login_credentials.dart';
+import 'package:cyclepathsg/login.dart';
 
 import '/utils/sizes.dart';
+import 'models/account.dart';
 
 class RegisterPage extends StatelessWidget{
+  RegisterPage({super.key});
+
+  var emailController = TextEditingController();
+  var passController = TextEditingController();
+  var confirmPassController = TextEditingController();
+  bool obscureTextPass = true;
+  bool obscureTextConfirmPass = true;
 
   @override
   Widget build(BuildContext context) {
@@ -35,38 +47,95 @@ class RegisterPage extends StatelessWidget{
                   children: [
                     // email
                     TextFormField(
+                      controller: emailController,
                       decoration: InputDecoration(
                           prefixIcon: Icon(Iconsax.direct_right),
                           labelText: "E-mail"
                       ),
                     ),
+
                     const SizedBox(height: TSizes.spaceBtwInputFields),
 
                     // Password
-                    TextFormField(
-                      decoration: InputDecoration(
+                    StatefulBuilder(builder: (context, setState){
+                      return TextFormField(
+                        obscureText: obscureTextPass,
+                        controller: passController,
+                        decoration: InputDecoration(
                           prefixIcon: Icon(Iconsax.password_check),
                           labelText: "Password",
-                          suffixIcon: Icon(Iconsax.eye_slash)
-                      ),
-                    ),
+                          // suffixIcon: Icon(Iconsax.eye_slash)
+                          suffixIcon: IconButton(
+                              icon: Icon(
+                                obscureTextPass ? Icons.visibility_off : Icons.visibility,
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  obscureTextPass = !obscureTextPass;
+                                });
+                              }),
+                        ),
+                      );
+                    }),
 
                     // Confirm Password
-                    TextFormField(
-                      decoration: InputDecoration(
+
+                    StatefulBuilder(builder: (context, setState){
+
+                      return TextFormField(
+                        obscureText: obscureTextConfirmPass,
+                        controller: confirmPassController,
+                        decoration: InputDecoration(
                           prefixIcon: Icon(Iconsax.password_check),
                           labelText: "Confirm Password",
-                          suffixIcon: Icon(Iconsax.eye_slash)
-                      ),
-                    ),
+                          // suffixIcon: Icon(Iconsax.eye_slash)
+                          suffixIcon: IconButton(
+                              icon: Icon(
+                                obscureTextConfirmPass ? Icons.visibility_off : Icons.visibility,
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  obscureTextConfirmPass = !obscureTextConfirmPass;
+                                });
+                              }),
+                        ),
+                      );
+                    }),
 
-
-                    // Forget password
-                    TextButton(onPressed: () {}, child: const Text("Forget Password")),
+                    const SizedBox(height: 15),
 
                     SizedBox(
                         width: double.infinity,
-                        child: ElevatedButton(onPressed: () {}, child: Text("Sign In"),
+                        child: ElevatedButton(onPressed: () async {
+
+                          String email = emailController.text.trim();
+                          String password = passController.text.trim();
+                          String confirmPassword = confirmPassController.text.trim();
+
+                          if(password != confirmPassword){
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Password does not match.")));
+                          }else if(email.isEmpty || password.isEmpty || confirmPassword.isEmpty){
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Enter all fields.")));
+                          }else{
+
+                            try{
+                              await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);
+
+                              // Create db entry in firebase
+                              registerAccount(Account(userEmail: email, gender: 'NIL', imagePath: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'), context);
+
+                              // Move to home screen
+                              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginScreen()));
+
+                            } on FirebaseAuthException catch(err){
+                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("${err.message}")));
+                            } catch(err){
+                              print(err);
+                            }
+
+
+                          }
+                        },
                             style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.green, // button background color
                                 foregroundColor: Colors.white, // text & icon color
@@ -74,58 +143,40 @@ class RegisterPage extends StatelessWidget{
                                   vertical: 12.0,
                                   horizontal: 24.0,
                                 )
-                            )
+                            ), child: Text("Register")
                         )
                     ),
 
-                    const SizedBox(height: 15),
-                  ],
-                ),),
-                // Divider
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Flexible(child: Divider(color: Colors.grey, thickness: 0.5, indent: 60, endIndent: 5)),
-                    Text("or sign in with...", style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                      color: Colors.grey, // set your desired color
-                    )),
-                    Flexible(child: Divider(color: Colors.grey, thickness: 0.5, indent: 5, endIndent: 60)),
-                  ],
-                ),
-                const SizedBox(height: 15),
 
-                // Footer
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(border: Border.all(color: Colors.grey), borderRadius: BorderRadius.circular(100)),
-                      child: IconButton(
-                          onPressed: () {},
-                          icon: const Image(
-                              width: TSizes.iconMd,
-                              height:  TSizes.iconMd,
-                              image: AssetImage(TImages.google)
-                          )),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (context) => LoginScreen()),
+                        );
+                      },
+                      child: const Text("Already have an account? Click here"),
                     ),
 
-                    const SizedBox(width: TSizes.spaceBtwItems),
-                    Container(
-                      decoration: BoxDecoration(border: Border.all(color: Colors.grey), borderRadius: BorderRadius.circular(100)),
-                      child: IconButton(
-                          onPressed: () {},
-                          icon: const Image(
-                              width: TSizes.iconMd,
-                              height:  TSizes.iconMd,
-                              image: AssetImage(TImages.facebook)
-                          )),
-                    )
                   ],
-                )
+                ),),
+
               ],
             )
         ),
       ),
     );
   }
+
+  registerAccount(Account account, BuildContext context) async{
+    FirebaseFirestore db = FirebaseFirestore.instance;
+    await db.collection("Accounts").doc(DateTime.now().toString()).set(
+      Account.toMap(account)
+    ).then((value) => {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Successfully registered.")))
+    });
+  }
+
+
+
 }

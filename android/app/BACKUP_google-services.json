@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1057535640734",
+    "project_id": "cyclepathsg",
+    "storage_bucket": "cyclepathsg.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1057535640734:android:0a75866a907b45ab28a78f",
+        "android_client_info": {
+          "package_name": "com.example.cyclepathsg"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCDoCoVIIw16Lla8PNCJZKRDwQwI1LIL6o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1057535640734:android:65505878dd64cd0028a78f",
+        "android_client_info": {
+          "package_name": "com.ntu.cyclepathsg"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCDoCoVIIw16Lla8PNCJZKRDwQwI1LIL6o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

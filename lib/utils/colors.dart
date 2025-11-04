@@ -6,3 +6,4 @@ const Color declineOrder = Color(0XFFf1f2f6);
 const Color buttonSecondaryColor = Color(0XFFf7d9db);
 const Color backgroundColor = Color(0XFFf5f5f5);
 const Color iconColor = Color(0XFF44b180);
+const Color mainColor = Color(0xFF005C30);

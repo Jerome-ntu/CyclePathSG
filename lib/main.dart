@@ -1,6 +1,4 @@
 import 'package:cyclepathsg/login.dart';
-import 'package:cyclepathsg/screen/editProfileUI.dart';
-import 'package:cyclepathsg/screen/profileUI.dart';
 import 'package:cyclepathsg/provider/current_location_provider.dart';
 import 'package:cyclepathsg/register.dart';
 import 'package:cyclepathsg/navigation.dart';
@@ -15,10 +13,9 @@ import 'package:provider/provider.dart';
 Future<void> main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  // await Firebase.initializeApp();
 
   runApp(DevicePreview(builder: (context)=>MyApp()));
-  // runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
@@ -47,10 +44,7 @@ class _MyAppState extends State<MyApp> {
         title: 'CyclePathSG',
         debugShowCheckedModeBanner: false,
         // home: RegisterPage(),
-        // home: AppMainScreen(),
-        home: LoginScreen(),
-        // home: ProfilePage(),
-        // home: EditProfilePage(email: "soup@fish.com"),
+        home: AppMainScreen(),
       ),
     );
   }

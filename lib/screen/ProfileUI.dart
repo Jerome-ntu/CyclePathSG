@@ -8,17 +8,17 @@ import 'package:flutter/material.dart';
 
 import 'LoginUI.dart';
 
-class ProfilePage extends StatefulWidget {
+class ProfileUI extends StatefulWidget {
   String email;
 
-  ProfilePage({super.key, required this.email});
+  ProfileUI({super.key, required this.email});
 
   @override
-  _ProfilePageState createState() => _ProfilePageState();
+  _ProfileUIState createState() => _ProfileUIState();
 }
 
 
-class _ProfilePageState extends State<ProfilePage> {
+class _ProfileUIState extends State<ProfileUI> {
   late Future<void> _loadUser;
 
   @override

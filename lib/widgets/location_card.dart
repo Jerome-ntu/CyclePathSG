@@ -1,13 +1,7 @@
 import 'package:cyclepathsg/utils/colors.dart';
-import 'package:cyclepathsg/screen/app_main_screen.dart';
-import 'package:cyclepathsg/screen/HomeUI.dart';
-import 'package:cyclepathsg/utils/image_strings.dart';
-import 'package:cyclepathsg/widgets/custom_button.dart';
-import 'package:cyclepathsg/widgets/dash_vertical_line.dart';
-import 'package:cyclepathsg/route.dart';
 import 'package:cyclepathsg/provider/current_location_provider.dart';
 
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Route;
 
 class LocationCard extends StatelessWidget {
   final CurrentLocationProvider provider;
@@ -71,7 +65,6 @@ class LocationCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // items info
-                // pickup and delivery
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
 
@@ -87,7 +80,7 @@ class LocationCard extends StatelessWidget {
                       ],
                     ),
                     SizedBox(width: 4),
-                    pickupAndDeliveryInfo(
+                    routeInfo(
                       null,
                       getAddressFromCoordinates(
                         provider.currentLocation.latitude,
@@ -103,7 +96,13 @@ class LocationCard extends StatelessWidget {
                 //   child: CustomButton(
                 //     title: "View order details",
                 //     onPressed: () {
-                //       // NavigationHelper.push(context, OrderDetailScreen());
+                //       // move delivery boy to pickup location and navigate to map
+                //       Route route = new Route("3", "3", [LatLng(0.3, 3.0)]);
+                //       context.read<RouteProvider>().setRoute(route);
+                //       NavigationHelper.pushReplacement(
+                //         context,
+                //         NavigationUI(),
+                //       );
                 //     },
                 //   ),
                 // ),
@@ -115,7 +114,7 @@ class LocationCard extends StatelessWidget {
     );
   }
 
-  Expanded pickupAndDeliveryInfo(
+  Expanded routeInfo(
     String? title,
     Future<String> futureAddress,
     String? subtitle,

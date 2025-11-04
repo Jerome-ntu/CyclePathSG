@@ -1,0 +1,150 @@
+import 'package:cyclepathsg/utils/image_strings.dart';
+import 'package:cyclepathsg/utils/colors.dart';
+
+import 'package:cyclepathsg/models/Route.dart';
+
+import 'package:cyclepathsg/provider/route_provider.dart';
+
+import 'package:cyclepathsg/screen/RouteDetailsUI.dart';
+
+import 'package:cyclepathsg/widgets/dash_vertical_line.dart';
+import 'package:cyclepathsg/widgets/custom_button.dart';
+
+import 'package:cyclepathsg/route.dart';
+
+import 'package:flutter/material.dart' hide Route;
+import 'package:provider/provider.dart';
+
+class SuggestRouteCard extends StatelessWidget {
+  final Route route;
+
+  const SuggestRouteCard({super.key, required this.route});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(25),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            width: double.infinity,
+            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            decoration: BoxDecoration(
+              color: Colors.grey[100],
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(15),
+                topRight: Radius.circular(15),
+              ),
+            ),
+            child: Row(
+              children: [
+                Text(
+                  "Suggested Routes",
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                ),
+                SizedBox(width: 15),
+                Spacer(),
+              ],
+            ),
+          ),
+          // order details,
+          Padding(
+            padding: EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // items info
+                Material(
+                  color: Colors.white,
+                  elevation: 1,
+                  shadowColor: Colors.black26,
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 40,
+                        height: 40,
+                        decoration: BoxDecoration(
+                          color: Colors.brown[100],
+                          borderRadius: BorderRadius.circular(8),
+                          image: DecorationImage(
+                            image: NetworkImage(TImages.tenderCoconut),
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 12),
+                      Text.rich(
+                        TextSpan(
+                          style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 15,
+                          ),
+                          children: [
+                            TextSpan(text: route.routeName),
+                            // TextSpan(
+                            //   text: " * 4",
+                            //   style: TextStyle(color: Colors.black38),
+                            // ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+                SizedBox(height: 15),
+                // action buttons ,
+                SizedBox(
+                  width: double.maxFinite,
+                  child: CustomButton(
+                    title: "View route details",
+                    onPressed: () {
+                      Provider.of<RouteProvider>(context, listen: false).setRoute(route);
+                      NavigationHelper.push(context, RouteDetailsUI());
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      )
+    );
+  }
+
+  Expanded pickupAndDeliveryInfo(title, address, subtitle) {
+    return Expanded(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Expanded(
+                flex: 3,
+                child: Text(
+                  title,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                ),
+              ),
+              Expanded(
+                flex: 9,
+                child: Text(
+                  address,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(fontWeight: FontWeight.w500, fontSize: 15),
+                ),
+              ),
+            ],
+          ),
+          Text(subtitle, style: TextStyle(color: Colors.black38)),
+        ],
+      ),
+    );
+  }
+}

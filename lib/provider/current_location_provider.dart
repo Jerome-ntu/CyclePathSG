@@ -3,7 +3,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart'; // convert coords to name
 
-class CurrentLocationProvider extends ChangeNotifier{
+class CurrentLocationProvider extends ChangeNotifier {
   // default location: NTU
   LatLng _currentLocation = LatLng(1.348310, 103.683135);
   bool _isLoading = true;
@@ -14,7 +14,7 @@ class CurrentLocationProvider extends ChangeNotifier{
   bool get isLoading => _isLoading;
   String get errorMessage => _errorMessage;
 
-  CurrentLocationProvider(){
+  CurrentLocationProvider() {
     _getCurrentLocation();
   }
 
@@ -23,10 +23,10 @@ class CurrentLocationProvider extends ChangeNotifier{
     try {
       // check if location permission is granted
       LocationPermission permission = await Geolocator.checkPermission();
-      if (permission == LocationPermission.denied){
+      if (permission == LocationPermission.denied) {
         // request permission
         permission = await Geolocator.requestPermission();
-        if (permission == LocationPermission.denied){
+        if (permission == LocationPermission.denied) {
           _errorMessage = "Location permission denied. Using default location";
           _isLoading = false;
           notifyListeners();
@@ -35,7 +35,7 @@ class CurrentLocationProvider extends ChangeNotifier{
       }
       // check if location serice are enabled
       bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
-      if(!serviceEnabled){
+      if (!serviceEnabled) {
         _errorMessage = "Location service is disabled";
         _isLoading = false;
         notifyListeners();
@@ -43,29 +43,30 @@ class CurrentLocationProvider extends ChangeNotifier{
       }
       // get currrent position
       Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high
+        desiredAccuracy: LocationAccuracy.high,
       );
       // success -- update location and clear loading screen
       _currentLocation = LatLng(position.latitude, position.longitude);
       _isLoading = false;
       _errorMessage = "";
       notifyListeners();
-
-    } catch (e){
+    } catch (e) {
       // handle any errors during location retrival
-      _errorMessage = "Error getting location ${e.toString()}. Using default location.";
+      _errorMessage =
+          "Error getting location ${e.toString()}. Using default location.";
       _isLoading = false;
       notifyListeners();
       print(e.toString());
     }
   }
+
   // public method to manually refresh location (can be called by UI)
-void refreshLocation(){
+  void refreshLocation() {
     _isLoading = false;
     _errorMessage = '';
     notifyListeners();
     _getCurrentLocation();
-}
+  }
 }
 
 Future<String> getAddressFromCoordinates(double lat, double lng) async {
@@ -75,10 +76,12 @@ Future<String> getAddressFromCoordinates(double lat, double lng) async {
     if (placemarks.isNotEmpty) {
       final place = placemarks.first;
       return "${place.street ?? ''}, "
-          "${place.subLocality ?? ''}, "
-          "${place.locality ?? ''}, "
-          "${place.postalCode ?? ''}, "
-          "${place.country ?? ''}".replaceAll(RegExp(r', ,'), ',').replaceAll(RegExp(r', $'), '');
+              "${place.subLocality ?? ''}, "
+              "${place.locality ?? ''}, "
+              "${place.postalCode ?? ''}, "
+              "${place.country ?? ''}"
+          .replaceAll(RegExp(r', ,'), ',')
+          .replaceAll(RegExp(r', $'), '');
     } else {
       return "Unknown location";
     }
@@ -87,5 +90,3 @@ Future<String> getAddressFromCoordinates(double lat, double lng) async {
     return "Error getting location";
   }
 }
-
-

@@ -1,11 +1,10 @@
-import 'package:cyclepathsg/screen/LoginUI.dart';
 import 'package:cyclepathsg/provider/current_location_provider.dart';
-import 'package:cyclepathsg/register.dart';
-import 'package:cyclepathsg/navigation.dart';
+import 'package:cyclepathsg/provider/route_provider.dart';
+import 'package:cyclepathsg/provider/pcn_provider.dart';
+
 import 'package:cyclepathsg/screen/app_main_screen.dart';
 
 import 'package:device_preview/device_preview.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
@@ -39,6 +38,8 @@ class _MyAppState extends State<MyApp> {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => CurrentLocationProvider()),
+        ChangeNotifierProvider(create: (_) => RouteProvider()),
+        ChangeNotifierProvider(create: (_) => PcnProvider()),
       ],
       child: MaterialApp(
         title: 'CyclePathSG',

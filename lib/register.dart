@@ -7,7 +7,7 @@ import 'package:cyclepathsg/common/styles/spacing_styles.dart';
 import 'package:cyclepathsg/utils/image_strings.dart';
 import 'package:iconsax_flutter/iconsax_flutter.dart';
 import 'package:cyclepathsg/models/LoginCredentials.dart';
-import 'package:cyclepathsg/lib/screen/LoginUI.dart';
+import 'package:cyclepathsg/screen/LoginUI.dart';
 
 import '/utils/sizes.dart';
 import 'models/account.dart';
@@ -126,7 +126,7 @@ class RegisterPage extends StatelessWidget{
                               registerAccount(Account(userEmail: email, gender: 'NIL', profileImage: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'), context);
 
                               // Move to home screen
-                              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginScreen()));
+                              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginUI()));
 
                             } on FirebaseAuthException catch(err){
                               ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("${err.message}")));
@@ -153,7 +153,7 @@ class RegisterPage extends StatelessWidget{
                       onPressed: () {
                         Navigator.pushReplacement(
                           context,
-                          MaterialPageRoute(builder: (context) => LoginScreen()),
+                          MaterialPageRoute(builder: (context) => LoginUI()),
                         );
                       },
                       child: const Text("Already have an account? Click here"),

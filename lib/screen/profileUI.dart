@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cyclepathsg/lib/screen/LoginUI.dart';
+import 'package:cyclepathsg/screen/LoginUI.dart';
 import 'package:cyclepathsg/models/account.dart';
 import 'package:cyclepathsg/screen/editProfileUI.dart';
 import 'package:cyclepathsg/utils/user_preferences.dart';
@@ -180,7 +180,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       // After signing out, navigate to the login screen
                       Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(builder: (context) => LoginScreen()),
+                        MaterialPageRoute(builder: (context) => LoginUI()),
                       );
                     } catch (e) {
                       // Show error if something goes wrong

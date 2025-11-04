@@ -9,8 +9,8 @@ import 'package:cyclepathsg/models/LoginCredentials.dart';
 
 import '/utils/sizes.dart';
 
-class LoginScreen extends StatelessWidget {
-  LoginScreen({super.key});
+class LoginUI extends StatelessWidget {
+  LoginUI({super.key});
 
   var emailController = TextEditingController();
   var passController = TextEditingController();

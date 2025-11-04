@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cyclepathsg/screen/HomeUI.dart';
 import 'package:cyclepathsg/screen/HomeUI.dart';
-import 'package:cyclepathsg/screen/profileUI.dart';
+import 'package:cyclepathsg/screen/ProfileUI.dart';
 
 import 'package:cyclepathsg/utils/colors.dart';
 import 'package:flutter/material.dart';
@@ -25,8 +25,8 @@ class _AppMainScreenState extends State<AppMainScreen> {
 
   final List<IconData> _icons = [
     FontAwesomeIcons.house,
-    FontAwesomeIcons.boxOpen,
-    FontAwesomeIcons.truckFast,
+    FontAwesomeIcons.user,
+    FontAwesomeIcons.gift,
   ];
   final List<String> _labels = [
     "Home", "Profile", "Rewards"
@@ -40,7 +40,7 @@ class _AppMainScreenState extends State<AppMainScreen> {
     final List<Widget> pages = [
       HomeUI(),
       // Center(child: Text("Profile")),
-      ProfilePage(email: widget.email),
+      ProfileUI(email: widget.email),
       Center(child: Text("Rewards")),
       Center(child: Text("DELETE_ME")),
     ];

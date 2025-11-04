@@ -1,7 +1,8 @@
-import 'package:cyclepathsg/login.dart';
+import 'package:cyclepathsg/lib/screen/LoginUI.dart';
 import 'package:cyclepathsg/provider/current_location_provider.dart';
 import 'package:cyclepathsg/register.dart';
 import 'package:cyclepathsg/navigation.dart';
+import 'package:cyclepathsg/screen/LoginUI.dart';
 import 'package:cyclepathsg/screen/app_main_screen.dart';
 
 import 'package:device_preview/device_preview.dart';
@@ -13,7 +14,7 @@ import 'package:provider/provider.dart';
 Future<void> main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
-  // await Firebase.initializeApp();
+  await Firebase.initializeApp();
 
   runApp(DevicePreview(builder: (context)=>MyApp()));
 }
@@ -44,7 +45,8 @@ class _MyAppState extends State<MyApp> {
         title: 'CyclePathSG',
         debugShowCheckedModeBanner: false,
         // home: RegisterPage(),
-        home: AppMainScreen(),
+        // home: AppMainScreen(),
+        home: LoginScreen(),
       ),
     );
   }

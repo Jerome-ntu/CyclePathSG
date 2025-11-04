@@ -1,9 +1,16 @@
-import 'dart:ffi';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class Location{
+class Location {
   String locationName;
-  Double longitude;
-  Double latitude;
+  LatLng coordinates;
 
-  Location(this.locationName, this.longitude, this.latitude);
+  Location(this.locationName, this.coordinates);
+
+  // Getters
+  String get getLocationName => locationName;
+  LatLng get getCoordinates => coordinates;
+
+  // Setters
+  set userEmail(String name) => locationName = name;
+  set setCoordinates(LatLng coordinates) => coordinates = coordinates;
 }

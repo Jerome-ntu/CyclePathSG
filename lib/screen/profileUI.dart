@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cyclepathsg/login.dart';
+import 'package:cyclepathsg/lib/screen/LoginUI.dart';
 import 'package:cyclepathsg/models/account.dart';
 import 'package:cyclepathsg/screen/editProfileUI.dart';
 import 'package:cyclepathsg/utils/user_preferences.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
+import 'LoginUI.dart';
 
 class ProfilePage extends StatefulWidget {
   String email;
@@ -178,7 +180,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       // After signing out, navigate to the login screen
                       Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(builder: (context) => LoginScreen()), // Replace with your login screen
+                        MaterialPageRoute(builder: (context) => LoginScreen()),
                       );
                     } catch (e) {
                       // Show error if something goes wrong

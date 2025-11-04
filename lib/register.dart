@@ -1,12 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cyclepathsg/screen/LoginUI.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:cyclepathsg/common/styles/spacing_styles.dart';
 import 'package:cyclepathsg/utils/image_strings.dart';
 import 'package:iconsax_flutter/iconsax_flutter.dart';
-import 'package:cyclepathsg/models/login_credentials.dart';
-import 'package:cyclepathsg/login.dart';
+import 'package:cyclepathsg/models/LoginCredentials.dart';
+import 'package:cyclepathsg/lib/screen/LoginUI.dart';
 
 import '/utils/sizes.dart';
 import 'models/account.dart';

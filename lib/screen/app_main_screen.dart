@@ -1,19 +1,24 @@
-import 'package:cyclepathsg/screen/cyclist_home_screen.dart';
-
+// import 'package:cyclepathsg/screen/cyclist_home_screen.dart';
+import 'package:cyclepathsg/screen/HomeUI.dart';
 import 'package:cyclepathsg/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class AppMainScreen extends StatefulWidget {
-  const AppMainScreen({super.key});
+
+  String email;
+
+  AppMainScreen({super.key, required this.email});
 
   @override
   State<AppMainScreen> createState() => _AppMainScreenState();
 }
 
 class _AppMainScreenState extends State<AppMainScreen> {
+
+
   final List<Widget> pages = [
-    CyclistHomeScreen(),
+    HomeUI(),
     Center(child: Text("Profile")),
     Center(child: Text("Rewards")),
     Center(child: Text("DELETE_ME")),

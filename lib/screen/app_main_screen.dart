@@ -25,8 +25,8 @@ class _AppMainScreenState extends State<AppMainScreen> {
 
   final List<IconData> _icons = [
     FontAwesomeIcons.house,
-    FontAwesomeIcons.boxOpen,
-    FontAwesomeIcons.truckFast,
+    FontAwesomeIcons.user,
+    FontAwesomeIcons.gift,
   ];
   final List<String> _labels = [
     "Home", "Profile", "Rewards"

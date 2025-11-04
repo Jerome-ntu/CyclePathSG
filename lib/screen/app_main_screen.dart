@@ -1,14 +1,18 @@
-// import 'package:cyclepathsg/screen/cyclist_home_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cyclepathsg/screen/HomeUI.dart';
+import 'package:cyclepathsg/screen/HomeUI.dart';
+import 'package:cyclepathsg/screen/profileUI.dart';
+
 import 'package:cyclepathsg/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class AppMainScreen extends StatefulWidget {
 
+class AppMainScreen extends StatefulWidget {
   String email;
 
   AppMainScreen({super.key, required this.email});
+
 
   @override
   State<AppMainScreen> createState() => _AppMainScreenState();
@@ -16,15 +20,9 @@ class AppMainScreen extends StatefulWidget {
 
 class _AppMainScreenState extends State<AppMainScreen> {
 
-
-  final List<Widget> pages = [
-    HomeUI(),
-    Center(child: Text("Profile")),
-    Center(child: Text("Rewards")),
-    Center(child: Text("DELETE_ME")),
-  ];
   // initially display the index of the pages list
   int _currentIndex = 0;
+
   final List<IconData> _icons = [
     FontAwesomeIcons.house,
     FontAwesomeIcons.boxOpen,
@@ -36,6 +34,17 @@ class _AppMainScreenState extends State<AppMainScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    // debugPrint("User email: ${widget.email}");
+    getAccountDetails();
+    final List<Widget> pages = [
+      HomeUI(),
+      // Center(child: Text("Profile")),
+      ProfilePage(email: widget.email),
+      Center(child: Text("Rewards")),
+      Center(child: Text("DELETE_ME")),
+    ];
+
     return Scaffold(
       body: pages[_currentIndex],
         bottomNavigationBar: Container(
@@ -78,5 +87,29 @@ class _AppMainScreenState extends State<AppMainScreen> {
           }),)
       ),
     );
+  }
+
+  getAccountDetails() async {
+    QuerySnapshot snapshot = await FirebaseFirestore.instance
+        .collection("Accounts")
+        .where("userEmail", isEqualTo: widget.email)
+        .limit(1)
+        .get();
+
+    if(snapshot.docs.isNotEmpty){
+      var accData = snapshot.docs.first.data() as Map<String, dynamic>;
+      debugPrint("FISH $accData");
+
+      // String userEmail = accData['userEmail'] ?? "NULL";
+      // int profileImage = accData['profileImage'] ?? 0;
+      // String gender = accData['gender'] ?? "NULL";
+
+      // debugPrint("TEST-ASD $userEmail");
+      // debugPrint("TEST-ASD $profileImage");
+      // debugPrint("TEST-ASD $gender");
+
+      return accData;
+
+    }
   }
 }

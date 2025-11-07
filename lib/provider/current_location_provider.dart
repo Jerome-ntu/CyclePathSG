@@ -14,7 +14,7 @@ class CurrentLocationProvider extends ChangeNotifier {
   bool _isLoading = true;
   String _errorMessage = '';
   Position? _currentPosition;
-  StreamSubscription<Position>? _positionStreamSubscription;
+  StreamSubscription<Position>? positionStreamSubscription;
 
   // pubic getters to access private variables
   LatLng get currentLocation => _currentLocation;
@@ -91,7 +91,7 @@ class CurrentLocationProvider extends ChangeNotifier {
       distanceFilter: 5, // only update if moved 5 meters
     );
 
-    _positionStreamSubscription =
+    positionStreamSubscription =
         Geolocator.getPositionStream(locationSettings: locationSettings)
             .listen((Position position) {
           _currentPosition = position;
@@ -101,7 +101,7 @@ class CurrentLocationProvider extends ChangeNotifier {
 
   @override
   void dispose() {
-    _positionStreamSubscription?.cancel();
+    positionStreamSubscription?.cancel();
     super.dispose();
   }
 

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cyclepathsg/utils/font_awesome_helper.dart';
 
 import 'package:flutter/material.dart' hide Route;
@@ -11,6 +13,8 @@ class CurrentLocationProvider extends ChangeNotifier {
   LatLng _currentLocation = LatLng(1.348310, 103.683135);
   bool _isLoading = true;
   String _errorMessage = '';
+  Position? _currentPosition;
+  StreamSubscription<Position>? positionStreamSubscription;
 
   // pubic getters to access private variables
   LatLng get currentLocation => _currentLocation;
@@ -74,6 +78,36 @@ class CurrentLocationProvider extends ChangeNotifier {
     _getCurrentLocation();
   }
 
+  // when enabled, the system will update new currentlocation once changed
+  Future<void> continuouslyCheckLocationChange() async{
+    // get initial location
+    Position position = await Geolocator.getCurrentPosition(
+      desiredAccuracy: LocationAccuracy.high,
+    );
+    _currentLocation = LatLng(position.latitude, position.longitude);
+
+    // Start listening for continuous updates
+    const locationSettings = LocationSettings(
+      accuracy: LocationAccuracy.high,
+      distanceFilter: 5, // only update if moved 5 meters
+    );
+
+    positionStreamSubscription =
+        Geolocator.getPositionStream(locationSettings: locationSettings)
+            .listen((Position position) {
+          _currentPosition = position;
+          notifyListeners(); // update UI whenever position changes
+        });
+  }
+
+  // stop listening for location change
+  @override
+  void dispose() {
+    positionStreamSubscription?.cancel();
+    super.dispose();
+  }
+
+  // these 2 basically just loads an icon from fontawesome, as the default icons only can do pins of diff color
   void loadOriginIcon() async {
     originIcon = await getFontAwesomeBitmap(FontAwesomeIcons.circle, size: 45, color: Colors.blueAccent);
   }
@@ -83,6 +117,7 @@ class CurrentLocationProvider extends ChangeNotifier {
   }
 }
 
+// when you pass in a coord, it returns you the address name
 Future<String> getAddressFromCoordinates(double lat, double lng) async {
   try {
     List<Placemark> placemarks = await placemarkFromCoordinates(lat, lng);

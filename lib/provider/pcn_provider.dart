@@ -14,20 +14,24 @@ import 'package:iconsax_flutter/iconsax_flutter.dart';
 
 class PcnProvider extends ChangeNotifier {
   final List<Route> _pcnList = [];
+  final Map<String, List<Route>> _pcnListByArea = {};
   final Set<Polyline> _pcnPolylines = {};
   bool _isLoading = true;
 
   List<Route> get pcnList => _pcnList;
-  Set<Polyline> get pcnPolylines => _pcnPolylines;
-  bool get isLoading => _isLoading;
 
-  PcnProvider(){
+  Set<Polyline> get pcnPolylines => _pcnPolylines;
+
+  bool get isLoading => _isLoading;
+  final List<Route> mergedRoutesByArea = [];
+
+  PcnProvider() {
     _init();
   }
 
   Future<void> _init() async {
     await _getPcnData(); // wait for data to finish
-    _buildPolylines();   // now build polylines safely
+    buildPolylines(); // now build polylines safely
     _isLoading = false;
     notifyListeners();
   }
@@ -44,7 +48,8 @@ class PcnProvider extends ChangeNotifier {
 
   Future<void> _getPcnData() async {
     const datasetId = 'd_8f468b25193f64be8a16fa7d8f60f553';
-    final url = 'https://api-open.data.gov.sg/v1/public/api/datasets/$datasetId/poll-download';
+    final url =
+        'https://api-open.data.gov.sg/v1/public/api/datasets/$datasetId/poll-download';
 
     try {
       // Fetch the initial JSON response
@@ -67,23 +72,70 @@ class PcnProvider extends ChangeNotifier {
       // Decode the JSON string into a Dart object
       final Map<String, dynamic> dataJson = json.decode(dataResponse);
 
-      // Print the data
-      for (var i = 0; i < dataJson["features"].length; i++){
+      // get the data
+      for (var i = 0; i < dataJson["features"].length; i++) {
         var data = dataJson["features"][i];
 
-        Route route = Route(data["properties"]["Name"], "PCN$i",
-            RouteType.pcn, parseCoordinates(data["geometry"]["coordinates"]));
+        Route route = Route(
+          data["properties"]["Name"],
+          "PCN$i",
+          RouteType.pcn,
+          parseCoordinates(data["geometry"]["coordinates"]),
+        );
 
         _pcnList.add(route);
+
+        // Regex to extract the area
+        final regex = RegExp(
+          r'<th>CYL_PATH<\/th>\s*<td>(.*?)<\/td>',
+          caseSensitive: false,
+        );
+        final match = regex.firstMatch(data["properties"]["Description"]);
+
+        if (match != null) {
+          final area = match.group(1)!; // example: "Bedok"
+
+          // If the key doesn't exist, create a new list
+          _pcnListByArea.putIfAbsent(area, () => <Route>[]);
+
+          // Add a route to the list
+          Route new_route = Route(
+            data["properties"]["Name"],
+            "PCN$i",
+            RouteType.pcn,
+            parseCoordinates(data["geometry"]["coordinates"]),
+          );
+          _pcnListByArea[area]!.add(new_route);
+          // Output: {Bedok: [Instance of 'Route', Instance of `Route, ...]}
+        }
       }
     } catch (e) {
       print('Error: $e');
     }
-    print(_pcnList);
+
+    _pcnListByArea.forEach((area, routes) {
+      List<LatLng> mergedCoordinates = [];
+
+      for (var route in routes) {
+        if (mergedCoordinates.isEmpty) {
+          mergedCoordinates.addAll(route.getCoordinatesList);
+        } else {
+          // Avoid duplicate points at joins
+          mergedCoordinates.addAll(route.getCoordinatesList.skip(1));
+        }
+      }
+
+      mergedRoutesByArea.add(Route(
+        area, // name
+        area.toLowerCase(), // id
+        RouteType.suggested,
+        mergedCoordinates,
+      ));
+    });
   }
 
   // creates route line on map showing path between locations
-  void _buildPolylines() async {
+  void buildPolylines() async {
     for (int i = 0; i < _pcnList.length; i++) {
       _pcnPolylines.add(
         Polyline(
@@ -113,15 +165,73 @@ class PcnProvider extends ChangeNotifier {
       // MultiLineString: [[[lng, lat, 0.0], ...], [...]]
       for (var line in coordinates) {
         line = line as List<dynamic>;
-        latLngPoints.addAll(line.map<LatLng>((coord) {
-          final c = coord as List<dynamic>;
-          final double lng = c[0] as double;
-          final double lat = c[1] as double;
-          return LatLng(lat, lng);
-        }));
+        latLngPoints.addAll(
+          line.map<LatLng>((coord) {
+            final c = coord as List<dynamic>;
+            final double lng = c[0] as double;
+            final double lat = c[1] as double;
+            return LatLng(lat, lng);
+          }),
+        );
       }
     }
 
     return latLngPoints;
+  }
+
+  Map<String, List<Route>> get pcnListByArea => _pcnListByArea;
+
+  // start
+  // Helper to check if two points are "close enough"
+  bool isClose(LatLng a, LatLng b, [double tolerance = 1e-5]) {
+    return (a.latitude - b.latitude).abs() < tolerance &&
+        (a.longitude - b.longitude).abs() < tolerance;
+  }
+
+  // Join fragmented paths belonging to same CYL_PATH
+  List<LatLng> mergeFragments(List<List<LatLng>> fragments) {
+    if (fragments.isEmpty) return [];
+
+    bool mergedAny = true;
+    while (mergedAny) {
+      mergedAny = false;
+      for (int i = 0; i < fragments.length; i++) {
+        for (int j = i + 1; j < fragments.length; j++) {
+          var a = fragments[i];
+          var b = fragments[j];
+
+          if (isClose(a.last, b.first)) {
+            a.addAll(b.skip(1));
+            fragments.removeAt(j);
+            mergedAny = true;
+            break;
+          } else if (isClose(a.first, b.last)) {
+            b.addAll(a.skip(1));
+            fragments[i] = b;
+            fragments.removeAt(j);
+            mergedAny = true;
+            break;
+          } else if (isClose(a.last, b.last)) {
+            b = b.reversed.toList();
+            a.addAll(b.skip(1));
+            fragments.removeAt(j);
+            mergedAny = true;
+            break;
+          } else if (isClose(a.first, b.first)) {
+            b = b.reversed.toList();
+            b.addAll(a.skip(1));
+            fragments[i] = b;
+            fragments.removeAt(j);
+            mergedAny = true;
+            break;
+          }
+        }
+        if (mergedAny) break;
+      }
+    }
+
+    // pick the longest one as the main merged path
+    fragments.sort((a, b) => b.length.compareTo(a.length));
+    return fragments.first;
   }
 }

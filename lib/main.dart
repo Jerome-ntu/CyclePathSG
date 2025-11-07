@@ -42,15 +42,16 @@ class _MyAppState extends State<MyApp> {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => CurrentLocationProvider()),
-        ChangeNotifierProvider(create: (_) => RouteProvider()),
         ChangeNotifierProvider(create: (_) => PcnProvider()),
+        ChangeNotifierProvider(create: (_) => RouteProvider()),
       ],
       child: MaterialApp(
         title: 'CyclePathSG',
         debugShowCheckedModeBanner: false,
         // home: RegisterPage(),
         // home: AppMainScreen(),
-        home: LoginUI(),
+        //home: LoginUI(),
+        home: AppMainScreen(email: "jeromeke@gmail.com",), // for testing only, please use LoginUI()
       ),
     );
   }

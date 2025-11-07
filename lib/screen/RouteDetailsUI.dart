@@ -1,3 +1,4 @@
+import 'package:cyclepathsg/provider/current_location_provider.dart';
 import 'package:cyclepathsg/provider/route_provider.dart';
 
 import 'package:cyclepathsg/widgets/route_details_card.dart';
@@ -30,10 +31,13 @@ class _RouteDetailsUIState extends State<RouteDetailsUI> {
 
   @override
   Widget build(BuildContext context) {
+    final currentLocationProvider = Provider.of<CurrentLocationProvider>(context); // triggers creation
     return Scaffold(
       backgroundColor: Colors.grey[250],
       body: Consumer<RouteProvider>(
         builder: (context, provider, child) {
+          provider.currentLocationProvider = currentLocationProvider;
+          provider.setOriginToDest();
           return Stack(
             children: [
               // google map

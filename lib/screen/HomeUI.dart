@@ -43,21 +43,6 @@ class _HomeUIState extends State<HomeUI> {
     };
   }
 
-  // retrieve all routes from db
-  final List<LatLng> nusRoutePoints = [
-    LatLng(1.2966, 103.7764), // NUS Kent Ridge MRT
-    LatLng(1.2956, 103.7755), // University Town
-    LatLng(1.2948, 103.7742), // Central Library
-    LatLng(1.2937, 103.7730), // Science Faculty area
-    LatLng(1.2925, 103.7740), // School of Computing
-    LatLng(1.2915, 103.7750), // University Hall
-    LatLng(1.2905, 103.7760), // Faculty of Engineering
-    LatLng(1.2898, 103.7770), // NUS Sports Centre
-  ];
-  late Route route = Route(
-      "i am name", "i am route id", RouteType.suggested, nusRoutePoints);
-  late List<Route> rountes = [route];
-
   @override
   Widget build(BuildContext context) {
     final pcnProvider = Provider.of<PcnProvider>(context); // triggers creation
@@ -99,6 +84,7 @@ class _HomeUIState extends State<HomeUI> {
                 .size;
             final routeProvider = Provider.of<RouteProvider>(context);
             final suggestedRoutes = routeProvider.suggestedRoutes;
+
             return Stack(
               children: [
                 // display the google map

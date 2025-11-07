@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cyclepathsg/utils/font_awesome_helper.dart';
 
 import 'package:flutter/material.dart' hide Route;
@@ -11,6 +13,8 @@ class CurrentLocationProvider extends ChangeNotifier {
   LatLng _currentLocation = LatLng(1.348310, 103.683135);
   bool _isLoading = true;
   String _errorMessage = '';
+  Position? _currentPosition;
+  StreamSubscription<Position>? _positionStreamSubscription;
 
   // pubic getters to access private variables
   LatLng get currentLocation => _currentLocation;
@@ -72,6 +76,33 @@ class CurrentLocationProvider extends ChangeNotifier {
     _errorMessage = '';
     notifyListeners();
     _getCurrentLocation();
+  }
+
+  Future<void> continuouslyCheckLocationChange() async{
+    // get initial location
+    Position position = await Geolocator.getCurrentPosition(
+      desiredAccuracy: LocationAccuracy.high,
+    );
+    _currentLocation = LatLng(position.latitude, position.longitude);
+
+    // Start listening for continuous updates
+    const locationSettings = LocationSettings(
+      accuracy: LocationAccuracy.high,
+      distanceFilter: 5, // only update if moved 5 meters
+    );
+
+    _positionStreamSubscription =
+        Geolocator.getPositionStream(locationSettings: locationSettings)
+            .listen((Position position) {
+          _currentPosition = position;
+          notifyListeners(); // update UI whenever position changes
+        });
+  }
+
+  @override
+  void dispose() {
+    _positionStreamSubscription?.cancel();
+    super.dispose();
   }
 
   void loadOriginIcon() async {

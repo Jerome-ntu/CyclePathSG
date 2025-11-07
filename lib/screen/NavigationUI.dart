@@ -1,3 +1,4 @@
+import 'package:cyclepathsg/controllers/NavigationController.dart';
 import 'package:cyclepathsg/utils/font_awesome_helper.dart';
 import 'package:cyclepathsg/provider/pcn_provider.dart';
 import 'package:cyclepathsg/provider/route_provider.dart';
@@ -42,7 +43,15 @@ class _NavigationUIState extends State<NavigationUI> {
   Widget _buildGoogleMap(RouteProvider routeProvider,
       CurrentLocationProvider currentLocationProvider,
       PcnProvider pcnProvider) {
-    Set<Polyline> polylines = routeProvider.getPolylines;
+    routeProvider.currentLocationProvider = currentLocationProvider;
+    routeProvider.setOriginToDest();
+    Set<Polyline> polylines = {
+      ...routeProvider.getPolylines,
+      ...pcnProvider.pcnPolylines,
+      routeProvider.originToDest,
+    };
+    NavigationController navigationController = NavigationController(currentLocationProvider,
+        pcnProvider, routeProvider);
     return GoogleMap(
       onMapCreated: (GoogleMapController controller) {
         _mapController = controller;
@@ -53,7 +62,7 @@ class _NavigationUIState extends State<NavigationUI> {
         target: LatLng(27.7033, 85.3066),
         zoom: 16.0,
       ),
-      markers: _buildMarkers(currentLocationProvider, routeProvider),
+      markers: navigationController.markers,
       polylines: polylines,
       zoomControlsEnabled: true,
       myLocationButtonEnabled: false,
@@ -64,35 +73,6 @@ class _NavigationUIState extends State<NavigationUI> {
   // smoothly moves map camera to specified location with animation according to the marker
   void _moveToLocation(LatLng location) {
     location = LatLng(location.latitude, location.longitude);
-    _mapController?.animateCamera(CameraUpdate.newLatLngZoom(location, 16));
-  }
-
-  Set<Marker> _buildMarkers(CurrentLocationProvider currentLocationProvider,
-      RouteProvider routeProvider) {
-    Set<Marker> markers = {};
-    currentLocationProvider.loadCurrentLocationIcon();
-    currentLocationProvider.loadOriginIcon();
-    // origin marker
-    markers.add(
-      Marker(
-        markerId: MarkerId("origin"),
-        position: currentLocationProvider.currentLocation,
-        icon: currentLocationProvider.originIcon!,
-        infoWindow: InfoWindow(title: "Origin location"),
-      ),
-    );
-
-    // current location marker
-    markers.add(
-      Marker(
-        markerId: MarkerId("current_location"),
-        position: currentLocationProvider.currentLocation,
-        icon: currentLocationProvider.currentLocationIcon!,
-        infoWindow: InfoWindow(title: "Current location"),
-      ),
-    );
-
-    markers = markers.union(routeProvider.getMarkers);
-    return markers;
+    _mapController?.animateCamera(CameraUpdate.newLatLngZoom(location, 17));
   }
 }

@@ -20,4 +20,12 @@ class Route{
   set setRouteId(String id) => routeId = id;
   set setRouteType(RouteType type) => routeType = type;
   set setCoordinatesList(List<LatLng> newRoute) => coordinatesList = newRoute;
+
+  void addToCoordinates(LatLng coor){
+    coordinatesList.add(coor);
+  }
+
+  void addToCoordinatesList(List<LatLng> coors){
+    coordinatesList.addAll(coors);
+  }
 }

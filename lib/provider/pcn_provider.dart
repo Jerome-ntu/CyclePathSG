@@ -14,6 +14,7 @@ import 'package:iconsax_flutter/iconsax_flutter.dart';
 
 class PcnProvider extends ChangeNotifier {
   final List<Route> _pcnList = [];
+  final Map<String, Route> _pcnListByArea = {};
   final Set<Polyline> _pcnPolylines = {};
   bool _isLoading = true;
 
@@ -67,7 +68,7 @@ class PcnProvider extends ChangeNotifier {
       // Decode the JSON string into a Dart object
       final Map<String, dynamic> dataJson = json.decode(dataResponse);
 
-      // Print the data
+      // get the data
       for (var i = 0; i < dataJson["features"].length; i++){
         var data = dataJson["features"][i];
 
@@ -75,11 +76,25 @@ class PcnProvider extends ChangeNotifier {
             RouteType.pcn, parseCoordinates(data["geometry"]["coordinates"]));
 
         _pcnList.add(route);
+
+        // Regex to extract the area
+        final regex = RegExp(r'<th>CYL_PATH<\/th>\s*<td>(.*?)<\/td>', caseSensitive: false);
+        final match = regex.firstMatch(data["properties"]["Description"]);
+
+        if (match != null) {
+          final area = match.group(1)!; // example: "Bedok"
+
+          // If the key doesn't exist, create a new list
+          _pcnListByArea.putIfAbsent(area, () => Route(area, area, RouteType.pcn, []));
+
+          // Add a route to the list
+          _pcnListByArea[area]!.addToCoordinatesList(parseCoordinates(data["geometry"]["coordinates"]));
+          // Output: {Bedok: [Instance of 'Route']}
+        }
       }
     } catch (e) {
       print('Error: $e');
     }
-    print(_pcnList);
   }
 
   // creates route line on map showing path between locations
@@ -124,4 +139,6 @@ class PcnProvider extends ChangeNotifier {
 
     return latLngPoints;
   }
+
+  Map<String, Route> get pcnListByArea => _pcnListByArea;
 }

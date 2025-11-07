@@ -121,23 +121,6 @@ flutter run
 </code></pre>
 
 <hr />
-
-<h2>📸 Screenshots (optional)</h2>
-<p>
-  You can include screenshots of the map view, route suggestions, and navigation screens here.
-</p>
-
-<hr />
-
-<h2>🤝 Contributing</h2>
-<p>
-  Contributions, issues, and feature requests are welcome!<br>
-  Feel free to open a pull request or issue on <a href="https://github.com/&lt;your-username&gt;/cyclepathsg" target="_blank">GitHub</a>.
-</p>
-
-<hr />
-
-
 <hr />
 
 <h2>💡 Author</h2>

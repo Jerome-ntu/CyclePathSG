@@ -78,6 +78,7 @@ class CurrentLocationProvider extends ChangeNotifier {
     _getCurrentLocation();
   }
 
+  // when enabled, the system will update new currentlocation once changed
   Future<void> continuouslyCheckLocationChange() async{
     // get initial location
     Position position = await Geolocator.getCurrentPosition(
@@ -99,12 +100,14 @@ class CurrentLocationProvider extends ChangeNotifier {
         });
   }
 
+  // stop listening for location change
   @override
   void dispose() {
     positionStreamSubscription?.cancel();
     super.dispose();
   }
 
+  // these 2 basically just loads an icon from fontawesome, as the default icons only can do pins of diff color
   void loadOriginIcon() async {
     originIcon = await getFontAwesomeBitmap(FontAwesomeIcons.circle, size: 45, color: Colors.blueAccent);
   }
@@ -114,6 +117,7 @@ class CurrentLocationProvider extends ChangeNotifier {
   }
 }
 
+// when you pass in a coord, it returns you the address name
 Future<String> getAddressFromCoordinates(double lat, double lng) async {
   try {
     List<Placemark> placemarks = await placemarkFromCoordinates(lat, lng);

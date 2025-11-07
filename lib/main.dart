@@ -50,8 +50,8 @@ class _MyAppState extends State<MyApp> {
         debugShowCheckedModeBanner: false,
         // home: RegisterPage(),
         // home: AppMainScreen(),
-        //home: LoginUI(),
-        home: AppMainScreen(email: "jeromeke@gmail.com",), // for testing only, please use LoginUI()
+        home: LoginUI(),
+        //home: AppMainScreen(email: "jeromeke@gmail.com",), // for testing only, please use LoginUI()
       ),
     );
   }

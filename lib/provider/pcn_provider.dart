@@ -76,6 +76,7 @@ class PcnProvider extends ChangeNotifier {
       for (var i = 0; i < dataJson["features"].length; i++) {
         var data = dataJson["features"][i];
 
+        // create new route instance
         Route route = Route(
           data["properties"]["Name"],
           "PCN$i",
@@ -83,8 +84,10 @@ class PcnProvider extends ChangeNotifier {
           parseCoordinates(data["geometry"]["coordinates"]),
         );
 
+        // add directly to _pcnList
         _pcnList.add(route);
 
+        // next, we also want to group the data by their area. Example, area = Toa payoh/ Novena
         // Regex to extract the area
         final regex = RegExp(
           r'<th>CYL_PATH<\/th>\s*<td>(.*?)<\/td>',
@@ -113,6 +116,7 @@ class PcnProvider extends ChangeNotifier {
       print('Error: $e');
     }
 
+    // next, for each area, we are going to create a route by merging the fregmented routes
     _pcnListByArea.forEach((area, routes) {
       List<LatLng> mergedCoordinates = [];
 

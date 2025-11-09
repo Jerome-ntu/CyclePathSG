@@ -125,6 +125,6 @@ flutter run
 
 <h2>💡 Author</h2>
 <p>
-  Developed by <strong>Jerome Ke</strong><br>
+  <strong>Jerome Ke</strong><br>
   ✉️ <a href="mailto:jeromekejh@gmail.com">jeromekejh@gmail.com</a>
 </p>
